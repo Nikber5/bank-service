@@ -60,4 +60,15 @@ public class Payment {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Payment{"
+                + " id=" + id
+                + ", sourceAccount=" + sourceAccount
+                + ", destinationAccount=" + destinationAccount
+                + ", amount=" + amount
+                + ", status='" + status + '\''
+                + '}';
+    }
 }

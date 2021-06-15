@@ -59,5 +59,7 @@ public class Main {
 
         System.out.println(clientService.get(1L));
         System.out.println(clientService.get(2L));
+        System.out.println(accountService.get(1L));
+        System.out.println(paymentService.get(1L));
     }
 }
