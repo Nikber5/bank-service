@@ -1,10 +1,15 @@
 package bank.app.model.dto.request;
 
 import java.util.List;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 public class ClientRequestDto {
+    @NotNull
     private String first_name;
+    @NotNull
     private String last_name;
+    @Valid
     private List<AccountRequestDto> accounts;
 
     public String getFirst_name() {

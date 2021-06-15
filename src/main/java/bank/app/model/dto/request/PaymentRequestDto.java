@@ -1,10 +1,16 @@
 package bank.app.model.dto.request;
 
 import java.math.BigInteger;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 public class PaymentRequestDto {
+    @NotNull
     private Long source_acc_id;
+    @NotNull
     private Long dest_acc_id;
+    @NotNull
+    @Min(value = 0)
     private BigInteger amount;
     private String reason;
 

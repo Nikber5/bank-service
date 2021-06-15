@@ -1,10 +1,15 @@
 package bank.app.model.dto.request;
 
 import java.math.BigInteger;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 public class AccountRequestDto {
+    @NotNull
     private Long account_num;
     private String account_type;
+    @NotNull
+    @Min(value = 0)
     private BigInteger balance;
 
     public Long getAccount_num() {

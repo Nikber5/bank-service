@@ -12,6 +12,7 @@ import bank.app.service.mapper.response.AccountResponseMapper;
 import bank.app.service.mapper.response.ClientIdMapper;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,7 +45,7 @@ public class ClientController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ClientIdResponseDto addClient(@RequestBody ClientRequestDto requestDto) {
+    public ClientIdResponseDto addClient(@RequestBody @Valid ClientRequestDto requestDto) {
         Client client = clientRequestMapper.fromDto(requestDto);
         List<Account> accounts = client.getAccounts();
         for (Account account : accounts) {

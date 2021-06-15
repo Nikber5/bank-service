@@ -1,15 +1,22 @@
 package bank.app.controller;
 
 import bank.app.model.Payment;
+import bank.app.model.ValidList;
+import bank.app.model.dto.request.PaymentParamsRequest;
 import bank.app.model.dto.request.PaymentRequestDto;
 import bank.app.model.dto.response.PaymentIdResponseDto;
 import bank.app.model.dto.response.PaymentIdStatusResponseDto;
+import bank.app.model.dto.response.PaymentResponseDto;
 import bank.app.service.PaymentService;
+import bank.app.service.mapper.request.PaymentParamsRequestMapper;
 import bank.app.service.mapper.request.PaymentRequestMapper;
 import bank.app.service.mapper.response.PaymentIdResponseMapper;
 import bank.app.service.mapper.response.PaymentIdStatusResponseMapper;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import javax.validation.Valid;
+import bank.app.service.mapper.response.PaymentResponseMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,20 +31,26 @@ public class PaymentController {
     private final PaymentService paymentService;
     private final PaymentIdResponseMapper responseMapper;
     private final PaymentIdStatusResponseMapper idStatusMapper;
+    private final PaymentParamsRequestMapper paramsRequestMapper;
+    private final PaymentResponseMapper paymentResponseMapper;
 
     public PaymentController(PaymentRequestMapper paymentRequestMapper,
                              PaymentService paymentService,
                              PaymentIdResponseMapper responseMapper,
-                             PaymentIdStatusResponseMapper idStatusMapper) {
+                             PaymentIdStatusResponseMapper idStatusMapper,
+                             PaymentParamsRequestMapper paramsRequestMapper,
+                             PaymentResponseMapper paymentResponseMapper) {
         this.paymentRequestMapper = paymentRequestMapper;
         this.paymentService = paymentService;
         this.responseMapper = responseMapper;
         this.idStatusMapper = idStatusMapper;
+        this.paramsRequestMapper = paramsRequestMapper;
+        this.paymentResponseMapper = paymentResponseMapper;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public PaymentIdResponseDto createPayment(@RequestBody PaymentRequestDto dto) {
+    public PaymentIdResponseDto createPayment(@RequestBody @Valid PaymentRequestDto dto) {
         Payment payment = paymentRequestMapper.fromDto(dto);
         paymentService.createPayment(payment);
         return responseMapper.toDto(payment);
@@ -45,7 +58,7 @@ public class PaymentController {
 
     @PostMapping("/all")
     public List<PaymentIdStatusResponseDto>
-            createListOfPayments(@RequestBody List<PaymentRequestDto> dtos) {
+            createListOfPayments(@RequestBody @Valid ValidList<PaymentRequestDto> dtos) {
         List<PaymentIdStatusResponseDto> responseDtos = new ArrayList<>();
         for (PaymentRequestDto dto : dtos) {
             Payment payment = paymentRequestMapper.fromDto(dto);
@@ -55,5 +68,12 @@ public class PaymentController {
         }
 
         return responseDtos;
+    }
+
+    @PostMapping("/params")
+    public PaymentResponseDto getByParams(@RequestBody @Valid PaymentParamsRequest dto) {
+        Map<String, Long> params = paramsRequestMapper.fromDto(dto);
+        Payment payment = paymentService.findAll(params);
+        return paymentResponseMapper.toDto(payment);
     }
 }

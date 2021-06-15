@@ -3,7 +3,14 @@ package bank.app.dao.impl;
 import bank.app.dao.PaymentDao;
 import bank.app.exception.DataProcessingException;
 import bank.app.model.Payment;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -45,6 +52,30 @@ public class PaymentDaoImpl implements PaymentDao {
             if (session != null) {
                 session.close();
             }
+        }
+    }
+
+
+    @Override
+    public Payment findAll(Map<String, Long> params) {
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<Payment> query = cb.createQuery(Payment.class);
+            Root<Payment> root = query.from(Payment.class);
+            root.fetch("sourceAccount", JoinType.LEFT);
+            root.fetch("destinationAccount", JoinType.LEFT);
+            Predicate resultPredicate = cb.and();
+
+            for (Map.Entry<String, Long> entry : params.entrySet()) {
+                Predicate equal = cb.equal(root.get(entry.getKey()), entry.getValue());
+                resultPredicate = cb.and(resultPredicate, equal);
+            }
+
+            query.where(resultPredicate);
+            return session.createQuery(query).getSingleResult();
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get payment from DB by params: "
+                    + params, e);
         }
     }
 }

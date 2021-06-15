@@ -6,6 +6,8 @@ import bank.app.model.Payment;
 import bank.app.service.AccountService;
 import bank.app.service.PaymentService;
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,7 +34,8 @@ public class PaymentServiceImpl implements PaymentService {
 
         sourceBalance = sourceBalance.subtract(payment.getAmount());
         destinationBalance = destinationBalance.add(payment.getAmount());
-        if (sourceBalance.compareTo(BigInteger.ZERO) < 0
+        if (sourceAccount.getId().equals(destinationAccount.getId())
+                || sourceBalance.compareTo(BigInteger.ZERO) < 0
                 || destinationBalance.compareTo(BigInteger.ZERO) < 0) {
             payment.setStatus("error");
             return paymentDao.save(payment);
@@ -43,5 +46,10 @@ public class PaymentServiceImpl implements PaymentService {
         accountService.update(destinationAccount);
         payment.setStatus("ok");
         return paymentDao.save(payment);
+    }
+
+    @Override
+    public Payment findAll(Map<String, Long> params) {
+        return paymentDao.findAll(params);
     }
 }
