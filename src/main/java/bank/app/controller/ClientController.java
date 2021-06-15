@@ -1,19 +1,23 @@
 package bank.app.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import bank.app.model.Account;
 import bank.app.model.Client;
 import bank.app.model.dto.request.ClientRequestDto;
+import bank.app.model.dto.response.AccountResponseDto;
 import bank.app.model.dto.response.ClientIdResponseDto;
 import bank.app.service.AccountService;
 import bank.app.service.ClientService;
 import bank.app.service.mapper.request.ClientRequestMapper;
+import bank.app.service.mapper.response.AccountResponseMapper;
 import bank.app.service.mapper.response.ClientIdMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,15 +28,18 @@ public class ClientController {
     private final ClientIdMapper clientIdMapper;
     private final ClientService clientService;
     private final AccountService accountService;
+    private final AccountResponseMapper accountResponseMapper;
 
     public ClientController(ClientRequestMapper clientRequestMapper,
                             ClientIdMapper clientIdMapper,
                             ClientService clientService,
-                            AccountService accountService) {
+                            AccountService accountService,
+                            AccountResponseMapper accountResponseMapper) {
         this.clientRequestMapper = clientRequestMapper;
         this.clientIdMapper = clientIdMapper;
         this.clientService = clientService;
         this.accountService = accountService;
+        this.accountResponseMapper = accountResponseMapper;
     }
 
     @PostMapping
@@ -45,6 +52,15 @@ public class ClientController {
         }
         clientService.save(client);
         return clientIdMapper.toDto(client);
+    }
+
+    @GetMapping
+    public List<AccountResponseDto> getAccountByClientId(@RequestParam Long client_id) {
+        List<Account> accounts = clientService.get(client_id).getAccounts();
+        List<AccountResponseDto> collect = accounts.stream()
+                .map(accountResponseMapper::toDto)
+                .collect(Collectors.toList());
+        return collect;
     }
 
 }
