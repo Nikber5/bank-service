@@ -20,6 +20,7 @@ public class Payment {
     private Account destinationAccount;
     private BigInteger amount;
     private String status;
+    private String reason;
 
     public Long getId() {
         return id;
@@ -59,6 +60,14 @@ public class Payment {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     @Override
