@@ -7,6 +7,7 @@ import bank.app.service.AccountService;
 import bank.app.service.PaymentService;
 import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +50,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Payment findAll(Map<String, Long> params) {
+    public List<Payment> findAll(Map<String, Long> params) {
         return paymentDao.findAll(params);
     }
 }

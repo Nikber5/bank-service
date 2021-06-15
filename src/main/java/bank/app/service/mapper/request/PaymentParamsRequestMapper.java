@@ -12,17 +12,11 @@ public class PaymentParamsRequestMapper
     @Override
     public Map<String, Long> fromDto(PaymentParamsRequest dto) {
         Map<String, Long> params = new HashMap<>();
-        if (dto.getPayer_id() != null) {
-            params.put("payerId", dto.getPayer_id());
-        }
-        if (dto.getRecipient_id() != null) {
-            params.put("recipientId", dto.getRecipient_id());
-        }
         if (dto.getDest_acc_id() != null) {
-            params.put("destinationAccount.id", dto.getDest_acc_id());
+            params.put("destinationAccount", dto.getDest_acc_id());
         }
         if (dto.getSource_acc_id() != null) {
-            params.put("sourceAccount.id", dto.getSource_acc_id());
+            params.put("sourceAccount", dto.getSource_acc_id());
         }
         return params;
     }

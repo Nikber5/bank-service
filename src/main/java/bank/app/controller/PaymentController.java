@@ -15,6 +15,7 @@ import bank.app.service.mapper.response.PaymentIdStatusResponseMapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import bank.app.service.mapper.response.PaymentResponseMapper;
 import org.springframework.http.HttpStatus;
@@ -71,9 +72,11 @@ public class PaymentController {
     }
 
     @PostMapping("/params")
-    public PaymentResponseDto getByParams(@RequestBody @Valid PaymentParamsRequest dto) {
+    public List<PaymentResponseDto> getByParams(@RequestBody @Valid PaymentParamsRequest dto) {
         Map<String, Long> params = paramsRequestMapper.fromDto(dto);
-        Payment payment = paymentService.findAll(params);
-        return paymentResponseMapper.toDto(payment);
+        List<Payment> payment = paymentService.findAll(params);
+        return payment.stream()
+                .map(paymentResponseMapper::toDto)
+                .collect(Collectors.toList());
     }
 }

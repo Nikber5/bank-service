@@ -1,6 +1,7 @@
 package bank.app.dao;
 
 import bank.app.model.Payment;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -9,5 +10,5 @@ public interface PaymentDao {
 
     Payment save(Payment payment);
 
-    Payment findAll(Map<String, Long> params);
+    List<Payment> findAll(Map<String, Long> params);
 }
