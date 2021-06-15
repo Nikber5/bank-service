@@ -1,7 +1,5 @@
 package bank.app.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import bank.app.model.Account;
 import bank.app.model.Client;
 import bank.app.model.dto.request.ClientRequestDto;
@@ -12,6 +10,8 @@ import bank.app.service.ClientService;
 import bank.app.service.mapper.request.ClientRequestMapper;
 import bank.app.service.mapper.response.AccountResponseMapper;
 import bank.app.service.mapper.response.ClientIdMapper;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

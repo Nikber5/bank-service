@@ -35,8 +35,7 @@ public class PaymentServiceImpl implements PaymentService {
         if (sourceBalance.compareTo(BigInteger.ZERO) < 0
                 || destinationBalance.compareTo(BigInteger.ZERO) < 0) {
             payment.setStatus("error");
-            paymentDao.save(payment);
-            throw new RuntimeException("Balance can't be less than zero");
+            return paymentDao.save(payment);
         }
         sourceAccount.setBalance(sourceBalance);
         destinationAccount.setBalance(destinationBalance);
