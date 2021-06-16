@@ -50,7 +50,8 @@ public class PaymentController {
         this.paymentResponseMapper = paymentResponseMapper;
     }
 
-    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE},
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public PaymentIdResponseDto createPayment(@RequestBody @Valid PaymentRequestDto dto) {
@@ -59,7 +60,8 @@ public class PaymentController {
         return responseMapper.toDto(payment);
     }
 
-    @PostMapping(value = "/all", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+    @PostMapping(value = "/all", consumes = {MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE},
             produces = MediaType.APPLICATION_JSON_VALUE)
     public List<PaymentIdStatusResponseDto>
             createListOfPayments(@RequestBody @Valid ValidList<PaymentRequestDto> dtos) {
@@ -74,7 +76,8 @@ public class PaymentController {
         return responseDtos;
     }
 
-    @PostMapping(value = "/params", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+    @PostMapping(value = "/params", consumes = {MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE},
             produces = MediaType.APPLICATION_JSON_VALUE)
     public List<PaymentResponseDto> getByParams(@RequestBody @Valid PaymentParamsRequest dto) {
         Map<String, Long> params = paramsRequestMapper.fromDto(dto);
