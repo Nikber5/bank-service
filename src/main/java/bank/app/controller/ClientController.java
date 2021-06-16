@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,7 +44,8 @@ public class ClientController {
         this.accountResponseMapper = accountResponseMapper;
     }
 
-    @PostMapping
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+    produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ClientIdResponseDto addClient(@RequestBody @Valid ClientRequestDto requestDto) {
         Client client = clientRequestMapper.fromDto(requestDto);
@@ -55,7 +57,7 @@ public class ClientController {
         return clientIdMapper.toDto(client);
     }
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<AccountResponseDto> getAccountByClientId(@RequestParam Long client_id) {
         List<Account> accounts = clientService.get(client_id).getAccounts();
         List<AccountResponseDto> collect = accounts.stream()

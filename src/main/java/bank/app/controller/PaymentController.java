@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 import bank.app.service.mapper.response.PaymentResponseMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +50,8 @@ public class PaymentController {
         this.paymentResponseMapper = paymentResponseMapper;
     }
 
-    @PostMapping
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public PaymentIdResponseDto createPayment(@RequestBody @Valid PaymentRequestDto dto) {
         Payment payment = paymentRequestMapper.fromDto(dto);
@@ -57,7 +59,8 @@ public class PaymentController {
         return responseMapper.toDto(payment);
     }
 
-    @PostMapping("/all")
+    @PostMapping(value = "/all", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public List<PaymentIdStatusResponseDto>
             createListOfPayments(@RequestBody @Valid ValidList<PaymentRequestDto> dtos) {
         List<PaymentIdStatusResponseDto> responseDtos = new ArrayList<>();
@@ -71,7 +74,8 @@ public class PaymentController {
         return responseDtos;
     }
 
-    @PostMapping("/params")
+    @PostMapping(value = "/params", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public List<PaymentResponseDto> getByParams(@RequestBody @Valid PaymentParamsRequest dto) {
         Map<String, Long> params = paramsRequestMapper.fromDto(dto);
         List<Payment> payment = paymentService.findAll(params);

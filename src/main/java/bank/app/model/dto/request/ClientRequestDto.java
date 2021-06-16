@@ -10,6 +10,7 @@ public class ClientRequestDto {
     @NotNull
     private String last_name;
     @Valid
+    @NotNull
     private List<AccountRequestDto> accounts;
 
     public String getFirst_name() {
