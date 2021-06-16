@@ -45,7 +45,7 @@ public class ClientController {
     }
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
-    produces = MediaType.APPLICATION_JSON_VALUE)
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ClientIdResponseDto addClient(@RequestBody @Valid ClientRequestDto requestDto) {
         Client client = clientRequestMapper.fromDto(requestDto);

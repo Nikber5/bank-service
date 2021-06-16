@@ -3,10 +3,13 @@ package bank.app.dao.impl;
 import bank.app.dao.AccountDao;
 import bank.app.exception.DataProcessingException;
 import bank.app.model.Account;
+import bank.app.model.Payment;
+import java.util.List;
 import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -68,6 +71,19 @@ public class AccountDaoImpl implements AccountDao {
             if (session != null) {
                 session.close();
             }
+        }
+    }
+
+    @Override
+    public List<Payment> getPaymentsInfo(Long sourceAccId) {
+        try (Session session = sessionFactory.openSession()) {
+            Account account = session.get(Account.class, sourceAccId);
+            Query<Payment> query = session.createQuery("from Payment p "
+                    + "where p.sourceAccount = :sourceAccount", Payment.class);
+            query.setParameter("sourceAccount", account);
+            return query.getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get payment from DB by params: ", e);
         }
     }
 }

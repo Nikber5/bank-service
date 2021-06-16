@@ -2,7 +2,9 @@ package bank.app.service.impl;
 
 import bank.app.dao.AccountDao;
 import bank.app.model.Account;
+import bank.app.model.Payment;
 import bank.app.service.AccountService;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,5 +28,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account update(Account account) {
         return accountDao.update(account);
+    }
+
+    @Override
+    public List<Payment> getPaymentsInfo(Long sourceAccId) {
+        return accountDao.getPaymentsInfo(sourceAccId);
     }
 }

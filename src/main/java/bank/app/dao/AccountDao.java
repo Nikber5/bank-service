@@ -1,6 +1,8 @@
 package bank.app.dao;
 
 import bank.app.model.Account;
+import bank.app.model.Payment;
+import java.util.List;
 import java.util.Optional;
 
 public interface AccountDao {
@@ -9,4 +11,6 @@ public interface AccountDao {
     Account save(Account account);
 
     Account update(Account account);
+
+    List<Payment> getPaymentsInfo(Long sourceAccId);
 }

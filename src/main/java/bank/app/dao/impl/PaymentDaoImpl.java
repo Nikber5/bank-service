@@ -4,7 +4,6 @@ import bank.app.dao.PaymentDao;
 import bank.app.exception.DataProcessingException;
 import bank.app.model.Account;
 import bank.app.model.Payment;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -56,7 +55,6 @@ public class PaymentDaoImpl implements PaymentDao {
             }
         }
     }
-
 
     @Override
     public List<Payment> findAll(Map<String, Long> params) {

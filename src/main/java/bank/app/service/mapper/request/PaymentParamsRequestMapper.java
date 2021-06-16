@@ -1,9 +1,9 @@
 package bank.app.service.mapper.request;
 
-import java.util.HashMap;
-import java.util.Map;
 import bank.app.model.dto.request.PaymentParamsRequest;
 import bank.app.service.mapper.DtoRequestMapper;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.stereotype.Component;
 
 @Component
